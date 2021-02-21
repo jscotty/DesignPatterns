@@ -39,7 +39,7 @@ public class GameLoop  extends Loop {
 		super(width, height);
 		
 		this.window = window;
-		factory = new MissileFactory();
+		factory = new MissileFactory(normalMissilesCount, fastMissilesCount, slowMissilesCount);
 		random = new Random();
 	}
 	
@@ -54,16 +54,8 @@ public class GameLoop  extends Loop {
 		for (int i = 0; i < size; i++) {
 			float x = randomX();
 			float y = randomY();
-			
-			if(i < normalMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Normal));
-			} else if (i < normalMissilesCount + fastMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Fast));
-			} else if (i < normalMissilesCount + fastMissilesCount + slowMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Slow));
-			} else {
-				missiles.add(factory.GetMissileRandom(x, y));
-			}
+
+			missiles.add(factory.getMissile(x, y, i));
 		}
 	}
 	
@@ -86,7 +78,7 @@ public class GameLoop  extends Loop {
 			missiles.removeAll(removeMissiles);
 			keepMissilesAlive.addAll(removeMissiles);
 			for (int i = 0; i < removeMissiles.size(); i++) {
-				missiles.add(factory.GetMissile(randomX(), randomY(), removeMissiles.get(i).getCreationType()));
+				missiles.add(factory.getMissile(randomX(), randomY(), removeMissiles.get(i).getCreationType()));
 			}
 		}
 		

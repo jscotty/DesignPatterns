@@ -1,8 +1,32 @@
 package missile;
 
 public class MissileFactory {
+
+	private int normalMissilesCount;
+	private int fastMissilesCount;
+	private int slowMissilesCount;
 	
-	public Missile GetMissile(float x, float y, MissileType type) {
+	public MissileFactory(int normalCount, int fastCount, int slowCount) {
+		normalMissilesCount = normalCount;
+		fastMissilesCount = fastCount;
+		slowMissilesCount = slowCount;
+	}
+	
+	public Missile getMissile(float x, float y, int index) {
+		MissileType type = null;
+		
+		if(index < normalMissilesCount) {
+			type = MissileType.Normal;
+		} else if(index < normalMissilesCount + fastMissilesCount) {
+			type = MissileType.Fast;
+		} else if(index < normalMissilesCount + fastMissilesCount + slowMissilesCount) {
+			type = MissileType.Slow;
+		}
+		
+		return getMissile(x, y, type);
+	}
+	
+	public Missile getMissile(float x, float y, MissileType type) {
 		Missile result = null;
 		switch (type) {
 			case Normal:
@@ -15,7 +39,7 @@ public class MissileFactory {
 				result = new MissileSlow(x, y);
 				break;
 			default:
-				result = GetMissileRandom(x, y);
+				result = getMissileRandom(x, y);
 				break;
 		}
 
@@ -23,7 +47,7 @@ public class MissileFactory {
 		return result;
 	}
 	
-	public Missile GetMissileRandom(float x, float y) {
+	public Missile getMissileRandom(float x, float y) {
 		double percentage = Math.random() * 100;
 		
 		if(percentage < 33) {

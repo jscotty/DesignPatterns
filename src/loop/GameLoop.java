@@ -46,7 +46,7 @@ public class GameLoop  extends Loop {
 		super(width, height);
 		
 		this.window = window;
-		missileFactory = new MissileFactory();
+		missileFactory = new MissileFactory(normalMissilesCount, fastMissilesCount, slowMissilesCount);
 		random = new Random();
 	}
 	
@@ -63,16 +63,8 @@ public class GameLoop  extends Loop {
 		for (int i = 0; i < size; i++) {
 			float x = randomX();
 			float y = randomY();
-			
-			if(i < normalMissilesCount) {
-				missiles.add(missileFactory.GetMissile(x, y, MissileType.Normal));
-			} else if (i < normalMissilesCount + fastMissilesCount) {
-				missiles.add(missileFactory.GetMissile(x, y, MissileType.Fast));
-			} else if (i < normalMissilesCount + fastMissilesCount + slowMissilesCount) {
-				missiles.add(missileFactory.GetMissile(x, y, MissileType.Slow));
-			} else {
-				missiles.add(missileFactory.GetMissileRandom(x, y));
-			}
+
+			missiles.add(missileFactory.getMissile(x, y, i));
 		}
 		
 		TurretFactory turretFactory = new TurretFactory();
@@ -107,11 +99,11 @@ public class GameLoop  extends Loop {
 			missiles.removeAll(removeMissiles);
 			keepMissilesAlive.addAll(removeMissiles);
 			for (int i = 0; i < removeMissiles.size(); i++) {
-				missiles.add(missileFactory.GetMissile(randomX(), randomY(), removeMissiles.get(i).getCreationType()));
+				missiles.add(missileFactory.getMissile(randomX(), randomY(), removeMissiles.get(i).getCreationType()));
 			}
 		}
 		
-		while (keepMissilesAlive.size() > 50) {
+		while (keepMissilesAlive.size() > 15) {
 			keepMissilesAlive.remove(0); // removing missile when it reached a limit for performance
 		}
 	}

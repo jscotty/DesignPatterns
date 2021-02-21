@@ -1,13 +1,13 @@
 package components;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import ecs.Component;
+import math.Vector2;
 
 public class Image extends Component {
-	private static final float pivotX = 0.5f;
-	private static final float pivotY = 0.5f;
 	
 	private BufferedImage sprite;
 	private Transform transform;
@@ -18,6 +18,8 @@ public class Image extends Component {
 	private int renderWidth;
 	private int renderHeight;
 	
+	private Vector2 pivot = new Vector2(0.5f, 0.5f);
+	
 	public Image(BufferedImage sprite) {
 		this.sprite = sprite;
 
@@ -26,6 +28,11 @@ public class Image extends Component {
 		
 		renderWidth = width;
 		renderHeight = height;
+	}
+	
+	public void setPivot(float x, float y) {
+		pivot.x = x;
+		pivot.y = y;
 	}
 
 	@Override
@@ -47,10 +54,15 @@ public class Image extends Component {
 		if(sprite == null) {
 			return;
 		}
+		AffineTransform originalTrans = g.getTransform();
 
-		int x = (int) (transform.position.x - (renderWidth * pivotX));
-		int y = (int) (transform.position.y - (renderHeight * pivotY));
+		g.rotate(transform.rotation, transform.position.x , transform.position.y);
+		
+		int x = (int) (transform.position.x - (renderWidth * pivot.x));
+		int y = (int) (transform.position.y - (renderHeight * pivot.y));
 		g.drawImage(sprite, x, y, renderWidth, renderHeight, null);
+
+		g.setTransform(originalTrans);
 	}
 
 }

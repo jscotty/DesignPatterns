@@ -9,6 +9,8 @@ public class Transform extends Component {
 	
 	public Vector2 position;
 	
+	public float rotation;
+	
 	public Transform() {
 		 position = new Vector2();
 	}

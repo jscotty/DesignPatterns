@@ -1,5 +1,6 @@
 package loop;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,6 +10,8 @@ import missile.MissileFactory;
 import missile.MissileNormal;
 import missile.MissileType;
 import sprite.Sprites;
+import turret.TurretBase;
+import turret.TurretFactory;
 
 public class GameLoop  extends Loop {
 
@@ -19,12 +22,16 @@ public class GameLoop  extends Loop {
 	
 	private static final boolean loopCreations = true;
 	
+	private BufferedImage background;
+	
 	private GameWindow window;
-	private MissileFactory factory;
+	private MissileFactory missileFactory;
 	private Random random;
 
 	private ArrayList<Missile> missiles = new ArrayList<Missile>();
 	private ArrayList<Missile> keepMissilesAlive = new ArrayList<Missile>();
+	
+	private ArrayList<TurretBase> turrets = new ArrayList<TurretBase>();
 
 	private float randomX() {
 		return 10 + random.nextFloat() * (750);
@@ -39,7 +46,7 @@ public class GameLoop  extends Loop {
 		super(width, height);
 		
 		this.window = window;
-		factory = new MissileFactory();
+		missileFactory = new MissileFactory();
 		random = new Random();
 	}
 	
@@ -50,26 +57,40 @@ public class GameLoop  extends Loop {
 		Sprites sprites = new Sprites();
 		sprites.Init(); // creates singleton instance and sprites
 		
+		background = Sprites.instance.getBG();
+		
 		int size = normalMissilesCount + fastMissilesCount + slowMissilesCount + randomMissilesCount;
 		for (int i = 0; i < size; i++) {
 			float x = randomX();
 			float y = randomY();
 			
 			if(i < normalMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Normal));
+				missiles.add(missileFactory.GetMissile(x, y, MissileType.Normal));
 			} else if (i < normalMissilesCount + fastMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Fast));
+				missiles.add(missileFactory.GetMissile(x, y, MissileType.Fast));
 			} else if (i < normalMissilesCount + fastMissilesCount + slowMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Slow));
+				missiles.add(missileFactory.GetMissile(x, y, MissileType.Slow));
 			} else {
-				missiles.add(factory.GetMissileRandom(x, y));
+				missiles.add(missileFactory.GetMissileRandom(x, y));
 			}
+		}
+		
+		TurretFactory turretFactory = new TurretFactory();
+		int turretCount = 6;
+		for (int i = 0; i < turretCount; i++) {
+			float x = ((800 / turretCount) / 2) + i * (800 / turretCount);
+			turrets.add(turretFactory.getTurret(x, 500, i, turretCount));
 		}
 	}
 	
 	@Override
 	public void tick(double deltaTime) {
 		ArrayList<Missile> removeMissiles = new ArrayList<Missile>();
+		
+		for (TurretBase turret : turrets) {
+			turret.update(deltaTime);
+		}
+		
 		for (Missile missile : missiles) {
 			missile.update(deltaTime);
 
@@ -86,7 +107,7 @@ public class GameLoop  extends Loop {
 			missiles.removeAll(removeMissiles);
 			keepMissilesAlive.addAll(removeMissiles);
 			for (int i = 0; i < removeMissiles.size(); i++) {
-				missiles.add(factory.GetMissile(randomX(), randomY(), removeMissiles.get(i).getCreationType()));
+				missiles.add(missileFactory.GetMissile(randomX(), randomY(), removeMissiles.get(i).getCreationType()));
 			}
 		}
 		
@@ -97,9 +118,16 @@ public class GameLoop  extends Loop {
 	
 	@Override
 	public void render() {
+		graphics2D.drawImage(background, 0, 0, null);
+		
+		for (TurretBase turret : turrets) {
+			turret.render(graphics2D);
+		}
+		
 		for (Missile missile : missiles) {
 			missile.render(graphics2D);
 		}
+		
 		for (Missile missile : keepMissilesAlive) {
 			missile.render(graphics2D);
 		}

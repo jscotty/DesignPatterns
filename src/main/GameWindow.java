@@ -4,7 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
-public class GameWindow extends JFrame{
+public class GameWindow extends JFrame {
+	
+	public static GameWindow instance;
 	
 	boolean fullscreenEnabled = false;
 	int fullscreenMode = 0;
@@ -20,6 +22,8 @@ public class GameWindow extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
+		
+		instance = this;
 	}
 	
 	public void setFullscreen(int fsm){

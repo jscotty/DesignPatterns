@@ -7,7 +7,7 @@ public class MissileNormal extends Missile {
 	private static final float speed = 1f;
 	
 	public MissileNormal(float x, float y) {
-		super(x, y, speed, 2, Sprites.instance.GetMissileNormal());
+		super(x, y, speed, 2, Sprites.instance.getMissileNormal());
 	}
 
 }

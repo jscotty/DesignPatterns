@@ -38,8 +38,12 @@ public class RotateToMouse extends Component implements MouseMotionListener {
 		float dy = transform.position.y - e.getY();
 		transform.rotation = (float) Math.atan2(dy, dx);
 		transform.rotation += Math.toRadians(90);
-		System.out.println();
-		
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		
+		GameWindow.instance.removeMouseMotionListener(this);
+	}
 }

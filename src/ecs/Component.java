@@ -26,4 +26,9 @@ public abstract class Component {
     public abstract void update(double deltaTime);
     
     public abstract void render(Graphics2D g);
+    
+    // no abstract because it's not mandatory. Only for those who assigned as listeners
+    public void dispose() {
+    	
+    }
 }

@@ -24,6 +24,6 @@ public class TurretBarrel  extends Entity {
 	@Override
 	public void update(double deltaTime) {
 		super.update(deltaTime);
-		
 	}
+	
 }

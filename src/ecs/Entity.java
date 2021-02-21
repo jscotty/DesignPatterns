@@ -56,4 +56,12 @@ public class Entity {
 			}
 		}
     }
+    
+    public void dispose() {
+    	for (Component component : components) {
+			if(component.isActive()) {
+				component.dispose();
+			}
+		}
+    }
 }

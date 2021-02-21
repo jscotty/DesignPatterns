@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import ecs.Entity;
 import math.Vector2;
 import components.Image;
+import components.RotateToMouse;
 import components.Transform;
 
 public abstract class Missile extends Entity {

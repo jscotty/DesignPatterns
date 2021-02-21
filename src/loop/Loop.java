@@ -102,8 +102,6 @@ public class Loop extends JPanel implements Runnable{
 	}
 
 	public void tick(double deltaTime) {
-
-		
 	}
 
 	public void render() {

@@ -30,4 +30,9 @@ public abstract class TurretBase extends Entity {
 		
 		super.render(g);
 	}
+	
+	@Override
+	public void dispose() {
+		turretBarrel.dispose();
+	}
 }

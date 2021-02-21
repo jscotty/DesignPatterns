@@ -35,6 +35,23 @@ public class Sprites {
 	public BufferedImage getTurretBarrelWhite() { return turret_barrel_white; }
 	public BufferedImage getTurretBarrelRed() { return turret_barrel_red; }
 	
+	// buttons
+	private static BufferedImage btn_start_normal;
+	private static BufferedImage btn_start_hover;
+	private static BufferedImage btn_start_pressed;
+	
+	private static BufferedImage btn_back_normal;
+	private static BufferedImage btn_back_hover;
+	private static BufferedImage btn_back_pressed;
+
+	public BufferedImage getBtnStartNormal() { return btn_start_normal; }
+	public BufferedImage getBtnStartHover() { return btn_start_hover; }
+	public BufferedImage getBtnStartPressed() { return btn_start_pressed; }
+
+	public BufferedImage getBtnBackNormal() { return btn_back_normal; }
+	public BufferedImage getBtnBackHover() { return btn_back_hover; }
+	public BufferedImage getBtnBackPressed() { return btn_back_pressed; }
+	
 	public void Init() {
 		instance = this;
 		bg = loadImageFrom("bg");
@@ -47,13 +64,20 @@ public class Sprites {
 		turret_square = loadImageFrom("turret_base_sq");
 		turret_barrel_white = loadImageFrom("turret_barrel_white");
 		turret_barrel_red = loadImageFrom("turret_barrel_red");
+
+		btn_start_normal = loadImageFrom("btn_start");
+		btn_start_hover = loadImageFrom("btn_start_hover");
+		btn_start_pressed = loadImageFrom("btn_start_pressed");
+
+		btn_back_normal = loadImageFrom("btn_back");
+		btn_back_hover = loadImageFrom("btn_back_hover");
+		btn_back_pressed = loadImageFrom("btn_back_pressed");
 	}
 	
 	private BufferedImage loadImageFrom(String path){
 		URL url = this.getClass().getResource(path + ".png");
 		BufferedImage img = null;
 
-		System.out.println(url);
 		try{
 			img = ImageIO.read(url);
 		} catch(IOException e){

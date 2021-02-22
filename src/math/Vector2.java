@@ -18,7 +18,7 @@ public class Vector2 {
 		return new Vector2(0,0);
 	}
 	
-	public void normalize(){
+	public Vector2 normalize(){
 		double length = Math.sqrt((x * x)+(y * y));
 		
 		if(length != 0.0){
@@ -26,6 +26,8 @@ public class Vector2 {
 			x = x * s;
 			y = y * s;
 		}
+		
+		return this;
 	}
 	
 	public boolean equals(Vector2 vector){
@@ -33,22 +35,29 @@ public class Vector2 {
 	}
 	
 	public Vector2 add(Vector2 vector){
-		x = x + vector.x;
-		y = y + vector.y;
-		return new Vector2(x,y);
+		return new Vector2(x + vector.x, y + vector.y);
 	}
 	
 	public Vector2 substract(Vector2 vector){
-		x = x - vector.x;
-		y = y - vector.y;
-		return new Vector2(x,y);
+		return new Vector2(x - vector.x, y - vector.y);
 	}
 	
-	public static double getDistanceOnScreen(Vector2 v1, Vector2 v2){ 
+	public static double getDistanceD(Vector2 v1, Vector2 v2){ 
 		float vector1 = v1.x - v2.x;
 		float vector2 = v1.y - v2.y;
 		
 		return Math.sqrt((vector1 * vector1) + (vector2 * vector2));
+	}
+	
+	public static float getDistanceF(Vector2 v1, Vector2 v2){ 
+		float vector1 = v1.x - v2.x;
+		float vector2 = v1.y - v2.y;
+		
+		return (float) Math.sqrt((vector1 * vector1) + (vector2 * vector2));
+	}
+	
+	public Vector2 direction(Vector2 target) {
+		return target.substract(this).normalize();
 	}
 	
 	public void addVector(Vector2 v){

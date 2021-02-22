@@ -52,6 +52,10 @@ public class Sprites {
 	public BufferedImage getBtnBackHover() { return btn_back_hover; }
 	public BufferedImage getBtnBackPressed() { return btn_back_pressed; }
 	
+	// bullet
+	private static BufferedImage bullet;
+	public BufferedImage getBullet() { return bullet; }
+	
 	public void Init() {
 		instance = this;
 		bg = loadImageFrom("bg");
@@ -72,6 +76,8 @@ public class Sprites {
 		btn_back_normal = loadImageFrom("btn_back");
 		btn_back_hover = loadImageFrom("btn_back_hover");
 		btn_back_pressed = loadImageFrom("btn_back_pressed");
+
+		bullet = loadImageFrom("bullet");
 	}
 	
 	private BufferedImage loadImageFrom(String path){

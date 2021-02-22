@@ -3,9 +3,11 @@ package turret;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import bullet.Bullet;
 import components.Image;
 import components.Transform;
 import ecs.Entity;
+import math.Vector2;
 
 public abstract class TurretBase extends Entity {
 	
@@ -16,6 +18,10 @@ public abstract class TurretBase extends Entity {
 		
 		addComponent(new Transform(x, y));
 		addComponent(new Image(base));
+	}
+	
+	public Bullet shoot(Vector2 target) {
+		return turretBarrel.shoot(target);
 	}
 	
 	@Override

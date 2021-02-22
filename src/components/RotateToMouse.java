@@ -16,6 +16,7 @@ public class RotateToMouse extends Component implements MouseMotionListener {
 	@Override
 	public void init() {
 		transform = entity.getComponent(Transform.class);
+		transform.rotation = (float) Math.toRadians(180);
 		
 		GameWindow.instance.addMouseMotionListener(this);
 	}

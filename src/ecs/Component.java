@@ -17,6 +17,14 @@ public abstract class Component {
         init();
     }
     
+    public void removeEntity(boolean dispose) {
+        entity = null;
+        
+        if(dispose) {
+            dispose();
+        }
+    }
+    
     public Entity getEntity() {
         return entity;
     }

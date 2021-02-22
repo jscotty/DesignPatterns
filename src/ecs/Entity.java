@@ -32,6 +32,15 @@ public class Entity {
         c.setEntity(this);
     }
     
+    public void removeComponent(Component c, boolean dispose) {
+        if (c.getEntity() == null) {
+            throw new IllegalArgumentException("Component is already detached from entity");
+        }
+        
+        components.remove(c);
+        c.removeEntity(dispose);
+    }
+    
     public boolean hasComponent(Class<?> clazz) {    
         for (Component c : components) {
             if (clazz.isInstance(c)) {

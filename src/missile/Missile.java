@@ -14,7 +14,7 @@ public abstract class Missile extends Entity {
 	private float speed;
 	private int score;
 	
-	private boolean stopped;
+	private MissileState state = MissileState.Falling;
 
 	private MissileType creationType; // used to recreate
 	
@@ -24,7 +24,7 @@ public abstract class Missile extends Entity {
 
 	public int getScore() { return score; }
 
-	public boolean isStopped() { return stopped; }
+	public boolean isStopped() { return state == MissileState.Ground; }
 	
 	public MissileType getCreationType() { return creationType; }
 	
@@ -43,6 +43,11 @@ public abstract class Missile extends Entity {
 		getComponent(Image.class).setScale(scale);
 	}
 	
+	public void destroy() {
+		// TODO: destroy the missile somehow ;)
+		state = MissileState.Destroyed;
+	}
+	
 	public void update(double deltaTime) {
 		Transform transform = getComponent(Transform.class);
 		Vector2 pos = transform.position;
@@ -50,7 +55,7 @@ public abstract class Missile extends Entity {
 		if(pos.y >= 500) {
 			pos.y = 500;
 			
-			stopped = true;
+			state = MissileState.Ground;
 		}
 		
 		transform.position = pos;

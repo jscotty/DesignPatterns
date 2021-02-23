@@ -1,9 +1,7 @@
 package components;
 
 import java.awt.Graphics2D;
-import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import ecs.Component;

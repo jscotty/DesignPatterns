@@ -18,15 +18,11 @@ import turret.TurretFactory;
 public class GameLoop  extends Loop {
 	
 	private BufferedImage background;
-	
 	private GameStateManager gsm;
 	
-	private GameWindow window;
 	
-	public GameLoop(int width, int height, GameWindow window) {
+	public GameLoop(int width, int height) {
 		super(width, height);
-		
-		this.window = window;
 	}
 	
 	@Override

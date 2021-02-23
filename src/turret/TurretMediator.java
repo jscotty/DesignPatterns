@@ -10,9 +10,10 @@ import bullet.BulletMediator;
 import components.Transform;
 import main.GameWindow;
 import math.Vector2;
-import missile.MissileMediator;
 
 public class TurretMediator implements MouseListener{
+	
+	private static final int turretCount = 10;
 	
 	private List<TurretBase> turrets = new ArrayList<>();
 	
@@ -22,7 +23,6 @@ public class TurretMediator implements MouseListener{
 		this.bulletMediator = bulletMediator;
 		
 		TurretFactory turretFactory = new TurretFactory();
-		int turretCount = 6;
 		for (int i = 0; i < turretCount; i++) {
 			float x = ((800 / turretCount) / 2) + i * (800 / turretCount);
 			turrets.add(turretFactory.getTurret(x, 500, i, turretCount));
@@ -69,6 +69,11 @@ public class TurretMediator implements MouseListener{
 	}
 
 	@Override
+	public void mousePressed(MouseEvent e) {
+		shootTurret(e.getX(), e.getY());
+	}
+
+	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 
@@ -78,11 +83,6 @@ public class TurretMediator implements MouseListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		shootTurret(e.getX(), e.getY());
 	}
 
 	@Override

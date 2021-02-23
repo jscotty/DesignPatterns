@@ -3,8 +3,6 @@ package gamestate;
 import java.awt.Graphics2D;
 import java.util.Stack;
 
-import gamestate.states.MenuState;
-
 public class GameStateManager {
 	
 	public Stack<GameState> states = new Stack<GameState>();

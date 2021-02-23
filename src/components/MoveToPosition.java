@@ -31,6 +31,10 @@ public class MoveToPosition extends Component {
 		Vector2 direction = transform.position.direction(target);
 		transform.position.x += direction.x * speed * deltaTime;
 		transform.position.y += direction.y * speed * deltaTime;
+		
+		if(Vector2.getDistanceD(transform.position, target) <= 1.5f) {
+			transform.position = target;
+		}
 	}
 
 	@Override

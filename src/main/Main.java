@@ -9,7 +9,7 @@ public class Main {
 		
 	public static void main(String[] args) {
 		GameWindow gameWindow = new GameWindow("Design patterns - Demo", width, height);
-		gameWindow.add(new GameLoop(width, height, gameWindow));
+		gameWindow.add(new GameLoop(width, height));
 		gameWindow.setVisible(true);
 	}
 

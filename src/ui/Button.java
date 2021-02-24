@@ -68,7 +68,7 @@ public class Button extends Entity implements MouseInputListener, MouseMotionLis
 	private void checkState(MouseEvent e) {
 		ButtonState cachedState = state;
 		
-		if(collider.Collides(e.getX() - 8, e.getY() - 32)) {
+		if(collider.collides(e.getX() - 8, e.getY() - 32)) {
 			// hit!
 			if(mousePressed) {
 				state = ButtonState.Pressed;

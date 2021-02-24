@@ -22,6 +22,10 @@ public class Image extends Component {
 	
 	private Vector2 pivot = new Vector2(0.5f, 0.5f);
 	
+	public float getScale() {
+		return scale;
+	}
+	
 	public Image(BufferedImage sprite) {
 		setSprite(sprite);
 	}

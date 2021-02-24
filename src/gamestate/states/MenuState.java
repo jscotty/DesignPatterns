@@ -7,7 +7,6 @@ import javax.swing.AbstractAction;
 
 import gamestate.GameState;
 import gamestate.GameStateManager;
-import main.GameWindow;
 import sprite.Sprites;
 import ui.Button;
 

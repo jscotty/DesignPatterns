@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import components.Image;
+
 public class MissileMediator {
 
 	private static final int normalMissilesCount = 2;
-	private static final int fastMissilesCount = 0;
-	private static final int slowMissilesCount = 0;
+	private static final int fastMissilesCount = 1;
+	private static final int slowMissilesCount = 5;
 	private static final int randomMissilesCount = 0;
 	
 	private static final boolean loopCreations = true;
@@ -19,6 +21,9 @@ public class MissileMediator {
 	
 	private MissileFactory missileFactory;
 	private Random random;
+	
+	private float timeToAddRandomMissile = 500f; // 5 seconds
+	private float time = 0;
 
 	private float randomX() {
 		return 10 + random.nextFloat() * (750);
@@ -34,14 +39,18 @@ public class MissileMediator {
 		
 		int size = normalMissilesCount + fastMissilesCount + slowMissilesCount + randomMissilesCount;
 		for (int i = 0; i < size; i++) {
-			float x = randomX();
-			float y = randomY();
-
-			missiles.add(missileFactory.getMissile(x, y, i));
+			missiles.add(missileFactory.getMissile(randomX(), randomY(), i));
 		}
 	}
 	
 	public void update(double deltaTime) {
+		time += deltaTime;
+		
+		if(time > timeToAddRandomMissile) {
+			time = 0;
+			missiles.add(missileFactory.getMissileRandom(randomX(), randomY()));
+		}
+		
 		List<Missile> removeMissiles = new ArrayList<Missile>();
 		
 		for (Missile missile : missiles) {
@@ -94,5 +103,17 @@ public class MissileMediator {
 		
 		missiles.clear();
 		keepMissilesAlive.clear();
+	}
+
+	public void checkCollision(Image image) {
+		for (int i = 0; i < missiles.size(); i++) {
+			Missile missile = missiles.get(i);
+			if(missile.collisionDetection(image)) {
+				// missile is hit! DIE!
+				System.out.println("MISSILE HIT");
+				missiles.remove(missile);
+				i--;
+			}
+		}
 	}
 }

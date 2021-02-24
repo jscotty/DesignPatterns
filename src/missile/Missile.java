@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import ecs.Entity;
 import math.Vector2;
 import components.Image;
+import components.ImageCollider;
 import components.RotateToMouse;
 import components.Transform;
 
@@ -33,6 +34,7 @@ public abstract class Missile extends Entity {
 		
 		addComponent(new Transform(x, y));
 		addComponent(new Image(sprite));
+		addComponent(new ImageCollider());
 	}
 	
 	public void setCreationType(MissileType type) {
@@ -41,6 +43,10 @@ public abstract class Missile extends Entity {
 	
 	protected void setScale(float scale) {
 		getComponent(Image.class).setScale(scale);
+	}
+	
+	public boolean collisionDetection(Image target) {
+		return getComponent(ImageCollider.class).collides(target);
 	}
 	
 	public void destroy() {

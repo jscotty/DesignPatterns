@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 
 import ecs.Component;
 import math.Vector2;
+import observers.IMoveToPositionObserver;
+import observers.IObserver;
 
 public class MoveToPosition extends Component {
 
@@ -34,6 +36,8 @@ public class MoveToPosition extends Component {
 		
 		if(Vector2.getDistanceD(transform.position, target) <= 1.5f) {
 			transform.position = target;
+			
+			onPosition();
 		}
 	}
 
@@ -41,4 +45,9 @@ public class MoveToPosition extends Component {
 	public void render(Graphics2D g) {
 	}
 	
+	private void onPosition() {
+		for (IObserver observer : observers) {
+			((IMoveToPositionObserver) observer).onPosition();
+		}
+	}
 }

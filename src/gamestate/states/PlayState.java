@@ -49,7 +49,6 @@ public class PlayState extends GameState {
 	}
 	
 	private class OpenMenuState extends AbstractAction {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			gsm.setState(new MenuState(gsm));

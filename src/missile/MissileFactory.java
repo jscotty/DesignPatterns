@@ -28,6 +28,11 @@ public class MissileFactory {
 	
 	public Missile getMissile(float x, float y, MissileType type) {
 		Missile result = null;
+		
+		if(type == null) {
+			return  getMissileRandom(x, y);
+		}
+		
 		switch (type) {
 			case Normal:
 				result = new MissileNormal(x, y);
@@ -37,9 +42,6 @@ public class MissileFactory {
 				break;
 			case Slow:
 				result = new MissileSlow(x, y);
-				break;
-			default:
-				result = getMissileRandom(x, y);
 				break;
 		}
 

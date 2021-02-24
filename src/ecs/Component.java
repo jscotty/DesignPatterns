@@ -2,7 +2,9 @@ package ecs;
 
 import java.awt.Graphics2D;
 
-public abstract class Component {
+import subjects.Subject;
+
+public abstract class Component extends Subject {
 
 	private boolean active = true;
 	

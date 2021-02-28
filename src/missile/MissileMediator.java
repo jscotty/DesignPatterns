@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import components.Image;
+import main.MainManager;
 
 public class MissileMediator {
 
@@ -57,6 +58,7 @@ public class MissileMediator {
 			missile.update(deltaTime);
 
 			if(missile.isStopped()) {
+				MainManager.instance.removeLive();
 				removeMissiles.add(missile);
 			}
 		}
@@ -112,6 +114,7 @@ public class MissileMediator {
 				// missile is hit! DIE!
 				System.out.println("MISSILE HIT");
 				missiles.remove(missile);
+				MainManager.instance.addScore(missile.getScore());
 				i--;
 			}
 		}

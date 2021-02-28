@@ -30,6 +30,7 @@ public abstract class Missile extends Entity {
 	public MissileType getCreationType() { return creationType; }
 	
 	public Missile(float x, float y, float speed, int score, BufferedImage sprite) {
+		this.score = score;
 		this.speed = speed;
 		
 		addComponent(new Transform(x, y));

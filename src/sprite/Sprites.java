@@ -12,8 +12,10 @@ public class Sprites {
 
 	// background
 	private static BufferedImage bg;
-	
+	private static BufferedImage game_over;
+
 	public BufferedImage getBG() { return bg; }
+	public BufferedImage getGameOver() { return game_over; }
 	
 	// missiles
 	private static BufferedImage missile_normal;
@@ -59,6 +61,7 @@ public class Sprites {
 	public void Init() {
 		instance = this;
 		bg = loadImageFrom("bg");
+		game_over = loadImageFrom("game_over");
 
 		missile_normal = loadImageFrom("missile_normal");
 		missile_speed = loadImageFrom("missile_speed");

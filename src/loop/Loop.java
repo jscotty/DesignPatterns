@@ -31,7 +31,16 @@ public class Loop extends JPanel implements Runnable{
 		setFocusable(false);
 		requestFocus();
 	}
+
+	// initializing
+	public void init() {
+		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		graphics2D = (Graphics2D) img.getGraphics();
+		
+		running = true;
+	}
 	
+	// starting thread
 	@Override
 	public void addNotify() {
 		super.addNotify();
@@ -42,11 +51,12 @@ public class Loop extends JPanel implements Runnable{
 		}
 	}
 
+	// runnable code
 	@Override
 	public void run() {
-		//init
 		init();
 		
+		// caching time variables
 		long lastTime = System.nanoTime();
 		double nsPerTick = 1000000000D / currentFPS;
 		int frames = 0;
@@ -93,21 +103,16 @@ public class Loop extends JPanel implements Runnable{
 		
 	}
 
-	public void init() {
-		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		graphics2D = (Graphics2D) img.getGraphics();
-		
-		running = true;
-		
-	}
-
+	// used as virtual method
 	public void tick(double deltaTime) {
 	}
 
+	// rendering graphics
 	public void render() {
 		graphics2D.clearRect(0, 0, width, height);
 	}
 	
+	// clear frame
 	public void clear(){
 		Graphics g2 = getGraphics();
 		
@@ -117,6 +122,7 @@ public class Loop extends JPanel implements Runnable{
 		g2.dispose();
 	}
 	
+	// getter properties
 	public int getFps() {
 		return fps;
 	}

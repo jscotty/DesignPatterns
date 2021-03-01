@@ -10,5 +10,4 @@ public class MissileFast extends Missile {
 		
 		setScale(.75f);
 	}
-
 }

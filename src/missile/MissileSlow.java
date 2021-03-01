@@ -11,5 +11,4 @@ public class MissileSlow extends Missile {
 		
 		setScale(2);
 	}
-
 }

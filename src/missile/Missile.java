@@ -11,6 +11,7 @@ import components.Transform;
 
 public abstract class Missile extends Entity {
 	
+	// entity data
 	private Vector2 pos;
 	private float speed;
 	private int score;
@@ -38,10 +39,12 @@ public abstract class Missile extends Entity {
 		addComponent(new ImageCollider());
 	}
 	
+	// set creation type which is used to recreate this missile
 	public void setCreationType(MissileType type) {
 		creationType = type;
 	}
 	
+	// scale missile
 	protected void setScale(float scale) {
 		getComponent(Image.class).setScale(scale);
 	}
@@ -55,6 +58,7 @@ public abstract class Missile extends Entity {
 		state = MissileState.Destroyed;
 	}
 	
+	// update missile to move it to the ground
 	public void update(double deltaTime) {
 		Transform transform = getComponent(Transform.class);
 		Vector2 pos = transform.position;

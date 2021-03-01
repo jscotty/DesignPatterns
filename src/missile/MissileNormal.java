@@ -9,5 +9,4 @@ public class MissileNormal extends Missile {
 	public MissileNormal(float x, float y) {
 		super(x, y, speed, 2, Sprites.instance.GetMissileNormal());
 	}
-
 }

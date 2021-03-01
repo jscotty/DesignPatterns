@@ -12,11 +12,13 @@ import sprite.Sprites;
 
 public class GameLoop  extends Loop {
 
+	// missiles count
 	private static final int normalMissilesCount = 10;
 	private static final int fastMissilesCount = 5;
 	private static final int slowMissilesCount = 15;
 	private static final int randomMissilesCount = 0;
 	
+	// enabling to loop recreating missiles after they reach the ground
 	private static final boolean loopCreations = true;
 	
 	private GameWindow window;

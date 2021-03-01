@@ -6,9 +6,11 @@ import java.awt.image.BufferedImage;
 import math.Vector2;
 
 public abstract class Missile  {
+	// pivot for object drawing
 	private static final float pivotX = 0.5f;
 	private static final float pivotY = 0.5f;
 	
+	// entity data
 	private Vector2 pos;
 	private float speed;
 	private int score;
@@ -17,12 +19,15 @@ public abstract class Missile  {
 	private int width;
 	private int height;
 	
+	// render size for scaling
 	private int renderWidth;
 	private int renderHeight;
 	
+	// when reached the ground
 	private boolean stopped;
 
-	private MissileType creationType; // used to recreate
+	// used to recreate
+	private MissileType creationType;
 	
 	public float getSpeed() { return speed; }
 
@@ -34,6 +39,7 @@ public abstract class Missile  {
 	
 	public MissileType getCreationType() { return creationType; }
 	
+	// Constructor
 	public Missile(float x, float y, float speed, int score, BufferedImage image) {
 		this.speed = speed;
 		this.image = image;
@@ -47,15 +53,18 @@ public abstract class Missile  {
 		pos = new Vector2(x, y);
 	}
 	
+	// set creation type which is used to recreate this missile
 	public void setCreationType(MissileType type) {
 		creationType = type;
 	}
 	
+	// scale missile
 	protected void setScale(float scale) {
 		renderWidth = (int) (width * scale);
 		renderHeight = (int) (height * scale);
 	}
 	
+	// update missile to move it to the ground
 	public void update(double deltaTime) {
 		pos.yPos += (float)(speed * deltaTime);
 		if(pos.yPos >= 500) {

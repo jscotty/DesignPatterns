@@ -37,13 +37,13 @@ public class Vector2 {
 	public Vector2 add(Vector2 vector){
 		xPos = xPos + vector.xPos;
 		yPos = yPos + vector.yPos;
-		return new Vector2(xPos,yPos);
+		return this;
 	}
 	
 	public Vector2 substract(Vector2 vector){
 		xPos = xPos - vector.xPos;
 		yPos = yPos - vector.yPos;
-		return new Vector2(xPos,yPos);
+		return this;
 	}
 	
 	public static double getDistanceOnScreen(Vector2 v1, Vector2 v2){ 

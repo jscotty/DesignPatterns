@@ -3,29 +3,33 @@ package loop;
 import java.util.ArrayList;
 import java.util.Random;
 
-import main.GameWindow;
 import missile.Missile;
 import missile.MissileFactory;
-import missile.MissileNormal;
-import missile.MissileType;
 import sprite.Sprites;
 
 public class GameLoop  extends Loop {
 
+	// missiles count
+	// this data is used for our factory.
+	// in this configuration our factory will make sure there
+	// are always 10 normal, 5 fast, 15 slow and no random missiles on
+	// screen.
 	private static final int normalMissilesCount = 10;
 	private static final int fastMissilesCount = 5;
 	private static final int slowMissilesCount = 15;
 	private static final int randomMissilesCount = 0;
 	
+	// enabling to loop recreating missiles after they reach the ground
 	private static final boolean loopCreations = true;
 	
-	private GameWindow window;
 	private MissileFactory factory;
 	private Random random;
 
+	// to keep track of our missiles
 	private ArrayList<Missile> missiles = new ArrayList<Missile>();
 	private ArrayList<Missile> keepMissilesAlive = new ArrayList<Missile>();
 
+	// random positioning properties
 	private float randomX() {
 		return 10 + random.nextFloat() * (750);
 	}
@@ -35,10 +39,10 @@ public class GameLoop  extends Loop {
 	}
 	
 	
-	public GameLoop(int width, int height, GameWindow window) {
+	public GameLoop(int width, int height) {
 		super(width, height);
 		
-		this.window = window;
+		// create factory instance
 		factory = new MissileFactory(normalMissilesCount, fastMissilesCount, slowMissilesCount);
 		random = new Random();
 	}
@@ -51,6 +55,7 @@ public class GameLoop  extends Loop {
 		sprites.Init(); // creates singleton instance and sprites
 		
 		int size = normalMissilesCount + fastMissilesCount + slowMissilesCount + randomMissilesCount;
+		// loop through all our indexes
 		for (int i = 0; i < size; i++) {
 			float x = randomX();
 			float y = randomY();
@@ -61,10 +66,12 @@ public class GameLoop  extends Loop {
 	
 	@Override
 	public void tick(double deltaTime) {
+		// update all our missiles
 		ArrayList<Missile> removeMissiles = new ArrayList<Missile>();
 		for (Missile missile : missiles) {
 			missile.update(deltaTime);
 
+			// add missile to removed list to not update, but keep rendering it
 			if(missile.isStopped()) {
 				removeMissiles.add(missile);
 			}
@@ -82,13 +89,17 @@ public class GameLoop  extends Loop {
 			}
 		}
 		
+		// remove missiles when exceeding a size of 50
+		// to prevent performance issues
 		while (keepMissilesAlive.size() > 50) {
-			keepMissilesAlive.remove(0); // removing missile when it reached a limit for performance
+			// removing missile when it reached a limit for performance
+			keepMissilesAlive.remove(0); 
 		}
 	}
 	
 	@Override
 	public void render() {
+		// render all our instances!
 		for (Missile missile : missiles) {
 			missile.render(graphics2D);
 		}

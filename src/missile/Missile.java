@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import ecs.Entity;
 import math.Vector2;
+import components.Gravity;
 import components.Image;
 import components.Transform;
 
@@ -33,6 +34,7 @@ public abstract class Missile extends Entity {
 		
 		addComponent(new Transform(x, y));
 		addComponent(new Image(sprite));
+		addComponent(new Gravity(speed));
 	}
 	
 	// set creation type which is used to recreate this missile
@@ -47,15 +49,14 @@ public abstract class Missile extends Entity {
 	
 	// update missile to move it to the ground
 	public void update(double deltaTime) {
+		super.update(deltaTime);
 		Transform transform = getComponent(Transform.class);
 		Vector2 pos = transform.position;
-		pos.y += (float)(speed * deltaTime);
 		if(pos.y >= 500) {
 			pos.y = 500;
 			
 			stopped = true;
+			transform.position = pos;
 		}
-		
-		transform.position = pos;
 	}
 }

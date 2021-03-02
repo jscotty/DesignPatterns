@@ -33,6 +33,8 @@ public class GameLoop  extends Loop {
 	// to keep track of our missiles
 	private ArrayList<Missile> missiles = new ArrayList<Missile>();
 	private ArrayList<Missile> keepMissilesAlive = new ArrayList<Missile>();
+	
+	private ArrayList<TurretBase> turrets = new ArrayList<TurretBase>();
 
 	private float randomX() {
 		return 10 + random.nextFloat() * (750);
@@ -65,16 +67,15 @@ public class GameLoop  extends Loop {
 		for (int i = 0; i < size; i++) {
 			float x = randomX();
 			float y = randomY();
-			
-			if(i < normalMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Normal));
-			} else if (i < normalMissilesCount + fastMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Fast));
-			} else if (i < normalMissilesCount + fastMissilesCount + slowMissilesCount) {
-				missiles.add(factory.GetMissile(x, y, MissileType.Slow));
-			} else {
-				missiles.add(factory.GetMissileRandom(x, y));
-			}
+
+			missiles.add(missileFactory.getMissile(x, y, i));
+		}
+		
+		TurretFactory turretFactory = new TurretFactory();
+		int turretCount = 6;
+		for (int i = 0; i < turretCount; i++) {
+			float x = ((800 / turretCount) / 2) + i * (800 / turretCount);
+			turrets.add(turretFactory.getTurret(x, 500, i, turretCount));
 		}
 	}
 	

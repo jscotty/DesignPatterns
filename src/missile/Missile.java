@@ -27,6 +27,7 @@ public abstract class Missile extends Entity {
 	
 	public MissileType getCreationType() { return creationType; }
 	
+	// Constructor
 	public Missile(float x, float y, float speed, int score, BufferedImage sprite) {
 		this.speed = speed;
 		
@@ -34,14 +35,17 @@ public abstract class Missile extends Entity {
 		addComponent(new Image(sprite));
 	}
 	
+	// set creation type which is used to recreate this missile
 	public void setCreationType(MissileType type) {
 		creationType = type;
 	}
 	
+	// scale missile
 	protected void setScale(float scale) {
 		getComponent(Image.class).setScale(scale);
 	}
 	
+	// update missile to move it to the ground
 	public void update(double deltaTime) {
 		Transform transform = getComponent(Transform.class);
 		Vector2 pos = transform.position;

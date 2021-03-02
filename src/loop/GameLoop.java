@@ -4,34 +4,35 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import main.GameWindow;
 import missile.Missile;
 import missile.MissileFactory;
-import missile.MissileNormal;
-import missile.MissileType;
 import sprite.Sprites;
 import turret.TurretBase;
 import turret.TurretFactory;
 
 public class GameLoop  extends Loop {
 
+	// missiles count
+	// this data is used for our factory.
+	// in this configuration our factory will make sure there
+	// are always 10 normal, 5 fast, 15 slow and no random missiles on
+	// screen.
 	private static final int normalMissilesCount = 10;
 	private static final int fastMissilesCount = 5;
 	private static final int slowMissilesCount = 15;
 	private static final int randomMissilesCount = 0;
 	
+	// enabling to loop recreating missiles after they reach the ground
 	private static final boolean loopCreations = true;
 	
 	private BufferedImage background;
-	
-	private GameWindow window;
+
 	private MissileFactory missileFactory;
 	private Random random;
 
+	// to keep track of our missiles
 	private ArrayList<Missile> missiles = new ArrayList<Missile>();
 	private ArrayList<Missile> keepMissilesAlive = new ArrayList<Missile>();
-	
-	private ArrayList<TurretBase> turrets = new ArrayList<TurretBase>();
 
 	private float randomX() {
 		return 10 + random.nextFloat() * (750);
@@ -42,10 +43,10 @@ public class GameLoop  extends Loop {
 	}
 	
 	
-	public GameLoop(int width, int height, GameWindow window) {
+	public GameLoop(int width, int height) {
 		super(width, height);
 		
-		this.window = window;
+		// create factory instance
 		missileFactory = new MissileFactory(normalMissilesCount, fastMissilesCount, slowMissilesCount);
 		random = new Random();
 	}
@@ -60,23 +61,26 @@ public class GameLoop  extends Loop {
 		background = Sprites.instance.getBG();
 		
 		int size = normalMissilesCount + fastMissilesCount + slowMissilesCount + randomMissilesCount;
+		// loop through all our indexes
 		for (int i = 0; i < size; i++) {
 			float x = randomX();
 			float y = randomY();
-
-			missiles.add(missileFactory.getMissile(x, y, i));
-		}
-		
-		TurretFactory turretFactory = new TurretFactory();
-		int turretCount = 6;
-		for (int i = 0; i < turretCount; i++) {
-			float x = ((800 / turretCount) / 2) + i * (800 / turretCount);
-			turrets.add(turretFactory.getTurret(x, 500, i, turretCount));
+			
+			if(i < normalMissilesCount) {
+				missiles.add(factory.GetMissile(x, y, MissileType.Normal));
+			} else if (i < normalMissilesCount + fastMissilesCount) {
+				missiles.add(factory.GetMissile(x, y, MissileType.Fast));
+			} else if (i < normalMissilesCount + fastMissilesCount + slowMissilesCount) {
+				missiles.add(factory.GetMissile(x, y, MissileType.Slow));
+			} else {
+				missiles.add(factory.GetMissileRandom(x, y));
+			}
 		}
 	}
 	
 	@Override
 	public void tick(double deltaTime) {
+		// update all our missiles
 		ArrayList<Missile> removeMissiles = new ArrayList<Missile>();
 		
 		for (TurretBase turret : turrets) {
@@ -86,6 +90,7 @@ public class GameLoop  extends Loop {
 		for (Missile missile : missiles) {
 			missile.update(deltaTime);
 
+			// add missile to removed list to not update, but keep rendering it
 			if(missile.isStopped()) {
 				removeMissiles.add(missile);
 			}
@@ -103,13 +108,17 @@ public class GameLoop  extends Loop {
 			}
 		}
 		
+		// remove missiles when exceeding a size of 50
+		// to prevent performance issues
 		while (keepMissilesAlive.size() > 15) {
-			keepMissilesAlive.remove(0); // removing missile when it reached a limit for performance
+			// removing missile when it reached a limit for performance
+			keepMissilesAlive.remove(0); 
 		}
 	}
 	
 	@Override
 	public void render() {
+		// render all our instances!
 		graphics2D.drawImage(background, 0, 0, null);
 		
 		for (TurretBase turret : turrets) {

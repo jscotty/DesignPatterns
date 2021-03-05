@@ -5,13 +5,11 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Entity {
+	// storing all our components
 	private List<Component> components = new ArrayList<>();
 	
-	/*
-	 * If you want to access a component, you can get it through this method.
-	 * If entity does not contain component, it will return an
-	 * illegalArgumentException
-	 */
+	// Accessing a component by getting it from our stored components
+	// list
 	public <T> T getComponent(Class<T> c) throws IllegalArgumentException {
 		for (Component component : components) {
 			if(c.isInstance(component)) {
@@ -23,6 +21,7 @@ public class Entity {
 	}
 	
 
+	// Adding a component to our list
     public void addComponent(Component c) {
         if (c.getEntity() != null) {
             throw new IllegalArgumentException("component already attached an entity");
@@ -32,6 +31,7 @@ public class Entity {
         c.setEntity(this);
     }
     
+    // asking if this entity contains a certain component
     public boolean hasComponent(Class<?> clazz) {    
         for (Component c : components) {
             if (clazz.isInstance(c)) {
@@ -41,6 +41,7 @@ public class Entity {
         return false;
     }
     
+    // update all components
     public void update(double deltaTime) {
     	for (Component component : components) {
 			if(component.isActive()) {
@@ -49,6 +50,7 @@ public class Entity {
 		}
     }
     
+    //render all components
     public void render(Graphics2D g) {
     	for (Component component : components) {
 			if(component.isActive()) {

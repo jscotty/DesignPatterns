@@ -10,6 +10,7 @@ public class Gravity extends Component {
 	private Transform transform;
 	private float speed;
 	
+	// defining gravity speed in constructor
 	public Gravity(float speed) {
 		this.speed = speed;
 	}
@@ -21,6 +22,7 @@ public class Gravity extends Component {
 
 	@Override
 	public void update(double deltaTime) {
+		// modifying transform position to fall down
 		Vector2 pos = transform.position;
 		pos.y += (float)(speed * deltaTime);
 		

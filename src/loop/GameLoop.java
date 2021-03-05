@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.Main;
 import missile.Missile;
 import missile.MissileFactory;
 import sprite.Sprites;
@@ -21,6 +22,8 @@ public class GameLoop  extends Loop {
 	private static final int fastMissilesCount = 5;
 	private static final int slowMissilesCount = 15;
 	private static final int randomMissilesCount = 0;
+
+	private static final int turretCount = 6;
 	
 	// enabling to loop recreating missiles after they reach the ground
 	private static final boolean loopCreations = true;
@@ -34,6 +37,7 @@ public class GameLoop  extends Loop {
 	private ArrayList<Missile> missiles = new ArrayList<Missile>();
 	private ArrayList<Missile> keepMissilesAlive = new ArrayList<Missile>();
 	
+	// to keep track of our turrets
 	private ArrayList<TurretBase> turrets = new ArrayList<TurretBase>();
 
 	private float randomX() {
@@ -72,9 +76,10 @@ public class GameLoop  extends Loop {
 		}
 		
 		TurretFactory turretFactory = new TurretFactory();
-		int turretCount = 6;
 		for (int i = 0; i < turretCount; i++) {
-			float x = ((800 / turretCount) / 2) + i * (800 / turretCount);
+			// calculating x position with offset based on amount
+			// and frame width
+			float x = ((Main.width / turretCount) / 2) + i * (Main.width / turretCount);
 			turrets.add(turretFactory.getTurret(x, 500, i, turretCount));
 		}
 	}

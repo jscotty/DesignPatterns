@@ -6,7 +6,6 @@ import java.util.Random;
 
 import gamestate.GameStateManager;
 import gamestate.states.MenuState;
-import main.GameWindow;
 import missile.Missile;
 import missile.MissileFactory;
 import missile.MissileNormal;
@@ -21,12 +20,8 @@ public class GameLoop  extends Loop {
 	
 	private GameStateManager gsm;
 	
-	private GameWindow window;
-	
-	public GameLoop(int width, int height, GameWindow window) {
+	public GameLoop(int width, int height) {
 		super(width, height);
-		
-		this.window = window;
 	}
 	
 	@Override

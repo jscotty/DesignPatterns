@@ -3,10 +3,10 @@ package gamestate;
 import java.awt.Graphics2D;
 import java.util.Stack;
 
-import gamestate.states.MenuState;
-
 public class GameStateManager {
 	
+	// stack is a great usage for this because we can stack our states
+	// and push new states to top to make them active
 	public Stack<GameState> states = new Stack<GameState>();
 
 	public void init() {

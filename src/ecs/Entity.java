@@ -30,6 +30,25 @@ public class Entity {
         components.add(c);
         c.setEntity(this);
     }
+	
+
+	// Removing component from our list
+    public <T> T removeComponent(Class<T> c) throws IllegalArgumentException {
+    	Component result = null;
+		for (Component component : components) {
+			if(c.isInstance(component)) {
+				result = component;
+			}
+		}
+		
+		if(result != null) {
+			components.remove(result);
+			return c.cast(result);
+		}
+		
+		
+        throw new IllegalArgumentException("Component not found " + c.getName());
+	}
     
     // asking if this entity contains a certain component
     public boolean hasComponent(Class<?> clazz) {    

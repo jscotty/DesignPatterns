@@ -6,7 +6,6 @@ import ecs.Entity;
 import math.Vector2;
 import components.Gravity;
 import components.Image;
-import components.RotateToMouse;
 import components.Transform;
 
 public abstract class Missile extends Entity {
@@ -46,14 +45,29 @@ public abstract class Missile extends Entity {
 		getComponent(Image.class).setScale(scale);
 	}
 	
+	private void setState(MissileState state) {
+		this.state = state;
+		
+		// check new state to apply change to our current behaviour
+		if(state == MissileState.Ground) {
+			// gravity is not needed anymore when we hit the ground
+			removeComponent(Gravity.class);
+		}
+	}
+	
 	public void destroy() {
 		// TODO: destroy the missile somehow ;)
-		state = MissileState.Destroyed;
+		setState(MissileState.Destroyed);
 	}
 	
 	public void update(double deltaTime) {
 		// update all components
 		super.update(deltaTime);
+		
+		// stop checking position when not falling
+		if(state != MissileState.Falling) {
+			return;
+		}
 		
 		// check if reached the ground
 		Transform transform = getComponent(Transform.class);
@@ -61,7 +75,7 @@ public abstract class Missile extends Entity {
 		if(pos.y >= 500) {
 			pos.y = 500;
 			
-			state = MissileState.Ground;
+			setState(MissileState.Ground);
 		}
 		
 		transform.position = pos;

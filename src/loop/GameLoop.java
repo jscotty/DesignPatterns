@@ -1,18 +1,10 @@
 package loop;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Random;
 
 import gamestate.GameStateManager;
 import gamestate.states.MenuState;
-import missile.Missile;
-import missile.MissileFactory;
-import missile.MissileNormal;
-import missile.MissileType;
 import sprite.Sprites;
-import turret.TurretBase;
-import turret.TurretFactory;
 
 public class GameLoop  extends Loop {
 	

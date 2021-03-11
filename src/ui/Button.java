@@ -1,9 +1,6 @@
 package ui;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
@@ -18,17 +15,22 @@ import main.GameWindow;
 
 public class Button extends Entity implements MouseInputListener, MouseMotionListener {
 
+	// components
 	private Transform transform;
 	private Image image;
 	private ImageCollider collider;
 
+	
+	// three state graphics
 	private BufferedImage normal;
 	private BufferedImage hover;
 	private BufferedImage pressed;
 	
+	// current state
 	private ButtonState state;
 	private boolean mousePressed;
 	
+	// action when button is clicked
 	private Action action;
 	
 	public Button(float x, float y, BufferedImage normal, BufferedImage hover, BufferedImage pressed) {
@@ -49,6 +51,7 @@ public class Button extends Entity implements MouseInputListener, MouseMotionLis
 		GameWindow.instance.addMouseMotionListener(this);
 	}
 	
+	// set action when this button is clicked
 	public void setOnClickAction(Action action) {
 		this.action = action;
 	}
@@ -57,6 +60,7 @@ public class Button extends Entity implements MouseInputListener, MouseMotionLis
 		image.setScale(scale);
 	}
 	
+	// retrieve button image based on state
 	private BufferedImage getStateImage() {
 		if(state == ButtonState.Pressed) {
 			return pressed;
@@ -65,6 +69,7 @@ public class Button extends Entity implements MouseInputListener, MouseMotionLis
 		return state == ButtonState.Hover ? hover : normal;
 	}
 	
+	// checking current conditions to change state
 	private void checkState(MouseEvent e) {
 		ButtonState cachedState = state;
 		
@@ -86,6 +91,7 @@ public class Button extends Entity implements MouseInputListener, MouseMotionLis
 	
 	private void onClick() {
 		if(state == ButtonState.Pressed) {
+			// fire action, no parameters are required
 			action.actionPerformed(null);
 		}
 	}

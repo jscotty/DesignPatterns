@@ -7,7 +7,6 @@ import javax.swing.AbstractAction;
 
 import gamestate.GameState;
 import gamestate.GameStateManager;
-import main.GameWindow;
 import sprite.Sprites;
 import ui.Button;
 
@@ -21,6 +20,7 @@ public class MenuState extends GameState {
 
 	@Override
 	public void init() {
+		// create start button
 		btnStart = new Button(800 / 2, 600 / 2, 
 				Sprites.instance.getBtnStartNormal(),
 				Sprites.instance.getBtnStartHover(),
@@ -29,6 +29,7 @@ public class MenuState extends GameState {
 		btnStart.setOnClickAction(new OpenPlayState());
 	}
 	
+	// internal class to handle button action
 	private class OpenPlayState extends AbstractAction {
 
 		@Override

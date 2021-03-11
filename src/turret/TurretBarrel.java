@@ -15,7 +15,8 @@ public class TurretBarrel extends Entity {
 		addComponent(new Transform(x, y));
 		addComponent(new Image(base));
 		addComponent(new RotateToMouse());
-	
+		
+		// base pivoting
 		setPivot(0.5f, 0f);
 	}
 	
@@ -34,6 +35,7 @@ public class TurretBarrel extends Entity {
 	
 	@Override
 	public void update(double deltaTime) {
+		// update components
 		super.update(deltaTime);
 	}
 	

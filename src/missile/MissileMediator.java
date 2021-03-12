@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import bullet.BulletMediator;
+
+// moved all logic about missiles from gameloop to this mediator.
 public class MissileMediator {
 
 	private static final int normalMissilesCount = 2;

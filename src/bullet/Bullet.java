@@ -1,7 +1,5 @@
 package bullet;
 
-import java.awt.image.BufferedImage;
-
 import components.Image;
 import components.MoveToPosition;
 import components.Transform;

@@ -11,6 +11,7 @@ import components.Transform;
 import main.GameWindow;
 import math.Vector2;
 
+// listening to mouse to shoot our turrets!
 public class TurretMediator implements MouseListener{
 	
 	private static final int turretCount = 10;
@@ -20,8 +21,10 @@ public class TurretMediator implements MouseListener{
 	private BulletMediator bulletMediator;
 	
 	public TurretMediator(BulletMediator bulletMediator) {
+		// caching bullet mediator which will be used to fire our bullet!
 		this.bulletMediator = bulletMediator;
 		
+		// moved turret creation from gameloop here!
 		TurretFactory turretFactory = new TurretFactory();
 		for (int i = 0; i < turretCount; i++) {
 			float x = ((800 / turretCount) / 2) + i * (800 / turretCount);
@@ -31,9 +34,15 @@ public class TurretMediator implements MouseListener{
 		GameWindow.instance.addMouseListener(this);
 	}
 	
+	// shooting turret towards mouse position!
 	public void shootTurret(int x, int y) {
+		// shooting position, used to get distance
 		Vector2 shootPosition = new Vector2(x, y);
+		// caching closest turret
 		TurretBase closestTurret = null;
+		// having a really high number so it will loop through all turrets.
+		// when lower number is found it will cache that distance and found turret until
+		// a new closer distance towards position is found.
 		double closestDistance = 99999999;
 		for (TurretBase turretBase : turrets) {
 			double distance = Vector2.getDistanceD(turretBase.getComponent(Transform.class).position, shootPosition);
@@ -43,6 +52,7 @@ public class TurretMediator implements MouseListener{
 			}
 		}
 		
+		// Shoot from turret closest to our mouse position!
 		bulletMediator.addBullet(closestTurret.shoot(shootPosition));
 	}
 	
@@ -70,7 +80,8 @@ public class TurretMediator implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		shootTurret(e.getX(), e.getY());
+		// - 32 because of top bar size
+		shootTurret(e.getX(), e.getY() - 32);
 	}
 
 	@Override

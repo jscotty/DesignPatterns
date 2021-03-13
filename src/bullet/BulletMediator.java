@@ -8,8 +8,9 @@ import components.Image;
 import missile.MissileMediator;
 import observers.IDieObserver;
 import observers.IScaleObserver;
-import turret.TurretMediator;
 
+// Listen to scaling for collision detection.
+// Listen to died bullets to remove them from list.
 public class BulletMediator implements IScaleObserver, IDieObserver {
 	
 	// all bullets stored
@@ -18,7 +19,6 @@ public class BulletMediator implements IScaleObserver, IDieObserver {
 	private MissileMediator missileMediator;
 	
 	public BulletMediator(MissileMediator missileMediator) {
-		// caching missile mediator for later use ;)
 		this.missileMediator = missileMediator;
 	}
 	
@@ -26,6 +26,7 @@ public class BulletMediator implements IScaleObserver, IDieObserver {
 	// bullets. Must be very much self explaining :)
 	public void addBullet(Bullet bullet) {
 		bullets.add(bullet);
+		// for registering
 		bullet.addScaleObserver(this);
 		bullet.addDieObserver(this);
 	}
@@ -58,6 +59,7 @@ public class BulletMediator implements IScaleObserver, IDieObserver {
 
 	@Override
 	public void onScale(Image image) {
+		// check if we are colliding any of the missiles.
 		missileMediator.checkCollision(image);
 	}
 
@@ -66,6 +68,7 @@ public class BulletMediator implements IScaleObserver, IDieObserver {
 		Bullet removeBullet = null;
 		removeBullet =  (Bullet) c.cast(removeBullet);
 		
+		// check if for some reason we don't get a bullet returned.
 		if(removeBullet == null) {
 			return;
 		}

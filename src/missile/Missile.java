@@ -6,6 +6,7 @@ import ecs.Entity;
 import math.Vector2;
 import components.Gravity;
 import components.Image;
+import components.ImageCollider;
 import components.RotateToMouse;
 import components.Transform;
 
@@ -54,7 +55,7 @@ public abstract class Missile extends Entity {
 		// check new state to apply change to our current behaviour
 		if(state == MissileState.Ground) {
 			// gravity is not needed anymore when we hit the ground
-			removeComponent(Gravity.class);
+			removeComponent(Gravity.class, true);
 		}
 	}
 	

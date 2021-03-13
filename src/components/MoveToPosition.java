@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import ecs.Component;
 import math.Vector2;
 import observers.IMoveToPositionObserver;
-import observers.IObserver;
 
 public class MoveToPosition extends Component {
 
@@ -45,6 +44,7 @@ public class MoveToPosition extends Component {
 			// the amount of shake will vary on the speed you choose!
 			transform.position = target;
 			
+			// firing on position to notify all our observers.
 			onPosition();
 		}
 	}
@@ -54,8 +54,9 @@ public class MoveToPosition extends Component {
 	}
 	
 	private void onPosition() {
-		for (IObserver observer : observers) {
-			((IMoveToPositionObserver) observer).onPosition();
+		// notifying all our observers!
+		for (IMoveToPositionObserver observer : getObservers(IMoveToPositionObserver.class)) {
+			observer.onPosition();
 		}
 	}
 }

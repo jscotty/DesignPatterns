@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 
 import ecs.Component;
 import observers.IDieObserver;
-import observers.IObserver;
 import observers.IScaleObserver;
 
 public class ImageScaler extends Component {
@@ -21,9 +20,14 @@ public class ImageScaler extends Component {
 	private boolean died = false;
 	
 	public ImageScaler(float maxScale, float scaleStep, float delay, boolean invertScale) {
+		// maximum scale until we invert or call die
 		this.maxScale = maxScale;
+		// amount of scale we add each time.
 		this.scaleStep = scaleStep;
+		// delay in seconds to add scale
+		// this will create a faltering effect
 		this.delay = delay;
+		// boolean to scale back to 0 when maximum scale is reached
 		this.invertScale = invertScale;
 	}
 	
@@ -41,6 +45,8 @@ public class ImageScaler extends Component {
 		
 		time += deltaTime;
 		
+		// checking time to make faltering effect
+		// if delay = 0, we have continues scaling.
 		if(time < delay) {
 			return;
 		}
@@ -51,17 +57,20 @@ public class ImageScaler extends Component {
 		if(currentScale > maxScale) {
 			currentScale = maxScale;
 			if(invertScale) {
+				// inverting our scaling.
 				scaleStep *= -1;
 			} else {
 				onDie();
 			}
 		} else if(currentScale < 0) {
 			currentScale = 0;
-			
+
+			// notifying all die observers that we are scaled to an invisible state.
 			onDie();
 		}
 		
 		image.setScale(currentScale);
+		// notifying all scale observers each time we scaled
 		onScaling();
 		
 	}
@@ -71,23 +80,17 @@ public class ImageScaler extends Component {
 	}
 	
 	private void onDie() {
-		System.out.println("died" + observers.size());
+		// notifying all die observers
 		died = true;
-		for (IObserver observer : observers) {
-			System.out.println(observer);
-			IDieObserver o = (IDieObserver) observer;
-			if(o != null) {
-				o.onDie(entity.getClass());
-			}
+		for (IDieObserver observer : getObservers(IDieObserver.class)) {
+			observer.onDie(entity.getClass());
 		}
 	}
 	
 	private void onScaling() {
-		for (IObserver observer : observers) {
-			IScaleObserver o = (IScaleObserver) observer;
-			if(o != null) {
-				o.onScale(image);
-			}
+		// notifying all scale observers
+		for (IScaleObserver observer : getObservers(IScaleObserver.class)) {
+			observer.onScale(image);
 		}
 	}
 }

@@ -2,7 +2,7 @@ package ecs;
 
 import java.util.List;
 
-import subjects.Subject;
+import subject.Subject;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -34,14 +34,25 @@ public class Entity {
         c.setEntity(this);
     }
     
-    public void removeComponent(Component c, boolean dispose) {
-        if (c.getEntity() == null) {
-            throw new IllegalArgumentException("Component is already detached from entity");
-        }
-        
-        components.remove(c);
-        c.removeEntity(dispose);
-    }
+    public <T> T removeComponent(Class<T> c, boolean dispose) throws IllegalArgumentException {
+    	Component result = null;
+		for (Component component : components) {
+			if(c.isInstance(component)) {
+				result = component;
+			}
+		}
+		
+		if(result != null) {
+			components.remove(result);
+			if(dispose) {
+				result.dispose();
+			}
+			return c.cast(result);
+		}
+		
+		
+        throw new IllegalArgumentException("Component not found " + c.getName());
+	}
     
     public boolean hasComponent(Class<?> clazz) {    
     	for (int i = 0; i < components.size(); i++) {

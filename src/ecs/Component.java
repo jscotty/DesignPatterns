@@ -2,7 +2,7 @@ package ecs;
 
 import java.awt.Graphics2D;
 
-import subjects.Subject;
+import subject.Subject;
 
 public abstract class Component extends Subject {
 

@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import components.Image;
+
 public class MissileMediator {
 
-	private static final int normalMissilesCount = 2;
-	private static final int fastMissilesCount = 1;
-	private static final int slowMissilesCount = 5;
+	private static final int normalMissilesCount = 0;
+	private static final int fastMissilesCount = 0;
+	private static final int slowMissilesCount = 0;
 	private static final int randomMissilesCount = 0;
 	
 	private static final boolean loopCreations = true;
@@ -109,6 +111,8 @@ public class MissileMediator {
 			if(missile.collisionDetection(image)) {
 				// missile is hit! DIE!
 				System.out.println("MISSILE HIT");
+				
+				// removing missile because we don't need it anymore. It's destroyed!
 				missiles.remove(missile);
 				i--;
 			}

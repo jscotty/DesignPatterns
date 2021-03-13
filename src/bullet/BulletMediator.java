@@ -12,14 +12,18 @@ import turret.TurretMediator;
 
 public class BulletMediator implements IScaleObserver, IDieObserver {
 	
+	// all bullets stored
 	private List<Bullet> bullets = new ArrayList<>();
 	
 	private MissileMediator missileMediator;
 	
 	public BulletMediator(MissileMediator missileMediator) {
+		// caching missile mediator for later use ;)
 		this.missileMediator = missileMediator;
 	}
 	
+	// adding, updating, rendering and disposing
+	// bullets. Must be very much self explaining :)
 	public void addBullet(Bullet bullet) {
 		bullets.add(bullet);
 		bullet.addScaleObserver(this);

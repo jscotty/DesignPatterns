@@ -9,8 +9,11 @@ import observers.IObserver;
 
 public class MoveToPosition extends Component {
 
+	// cached component
 	private Transform transform;
+	// target to move to
 	private Vector2 target;
+	// speed till reached target
 	private float speed;
 	
 	public MoveToPosition(float x, float y, float speed) {
@@ -30,11 +33,16 @@ public class MoveToPosition extends Component {
 
 	@Override
 	public void update(double deltaTime) {
+		// moving towards the direction we calculate in Vector class
 		Vector2 direction = transform.position.direction(target);
+		// adding position
 		transform.position.x += direction.x * speed * deltaTime;
 		transform.position.y += direction.y * speed * deltaTime;
 		
 		if(Vector2.getDistanceD(transform.position, target) <= 1.5f) {
+			// checking distance to clamp our position
+			// otherwise it will keep shaking on it's position.
+			// the amount of shake will vary on the speed you choose!
 			transform.position = target;
 			
 			onPosition();

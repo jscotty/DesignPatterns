@@ -7,14 +7,11 @@ import subjects.Subject;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class Entity extends Subject {
+public class Entity {
 	private List<Component> components = new ArrayList<>();
 	
-	/*
-	 * If you want to access a component, you can get it through this method.
-	 * If entity does not contain component, it will return an
-	 * illegalArgumentException
-	 */
+	// Accessing a component by getting it from our stored components
+	// list
 	public <T> T getComponent(Class<T> c) throws IllegalArgumentException {
     	for (int i = 0; i < components.size(); i++) {
     		Component component = components.get(i);
@@ -27,6 +24,7 @@ public class Entity extends Subject {
 	}
 	
 
+	// Adding a component to our list
     public void addComponent(Component c) {
         if (c.getEntity() != null) {
             throw new IllegalArgumentException("component already attached an entity");
@@ -45,7 +43,7 @@ public class Entity extends Subject {
         c.removeEntity(dispose);
     }
     
-    public boolean hasComponent(Class<?> clazz) {
+    public boolean hasComponent(Class<?> clazz) {    
     	for (int i = 0; i < components.size(); i++) {
     		Component component = components.get(i);
             if (clazz.isInstance(component)) {
@@ -55,6 +53,7 @@ public class Entity extends Subject {
         return false;
     }
     
+    // update all components
     public void update(double deltaTime) {
     	// changed all foreach to for loops because when adding/removing component while
     	// foreachloop has been called, the loop will crash.
@@ -67,6 +66,7 @@ public class Entity extends Subject {
 		}
     }
     
+    //render all components
     public void render(Graphics2D g) {
     	for (int i = 0; i < components.size(); i++) {
     		Component component = components.get(i);
@@ -76,6 +76,7 @@ public class Entity extends Subject {
 		}
     }
     
+    // disposing all components
     public void dispose() {
     	for (int i = 0; i < components.size(); i++) {
     		Component component = components.get(i);

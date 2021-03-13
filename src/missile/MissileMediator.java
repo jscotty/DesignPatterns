@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import components.Image;
-
 public class MissileMediator {
 
 	private static final int normalMissilesCount = 2;

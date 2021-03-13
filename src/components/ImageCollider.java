@@ -14,11 +14,13 @@ public class ImageCollider extends Component {
 		image = entity.getComponent(Image.class);
 	}
 	
+	// check collision based on a point
 	public boolean collides(Point point) {
 		return point.x <= image.getRect().getMaxX() && point.x >= image.getRect().getMinX() && 
 				point.y <= image.getRect().getMaxY() && point.y >= image.getRect().getMinY();
 	}
 	
+	// check if x/y are hitting out button
 	public boolean collides(float x, float y) {
 		return x < image.getRect().getMaxX() && x > image.getRect().getMinX() && 
 				y < image.getRect().getMaxY() && y > image.getRect().getMinY();

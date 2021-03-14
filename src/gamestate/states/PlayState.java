@@ -57,7 +57,9 @@ public class PlayState extends GameState implements IMainObserver {
 		
 		initialized = true;
 	}
-	
+
+	// internal class to handle button action. Java doesn't allow lambda expressions as
+  	// well known in C#, so this is a work-around option ;)
 	private class OpenMenuState extends AbstractAction {
 		@Override
 		public void actionPerformed(ActionEvent e) {

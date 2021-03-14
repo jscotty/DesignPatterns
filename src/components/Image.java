@@ -10,9 +10,12 @@ import math.Vector2;
 
 public class Image extends Component {
 	
+	// sprite to render
 	private BufferedImage sprite;
+	// caching transform component
 	private Transform transform;
 
+	// render data
 	private int width;
 	private int height;
 	private float scale = 1;
@@ -20,6 +23,8 @@ public class Image extends Component {
 	private int renderWidth;
 	private int renderHeight;
 	
+	// pivot to change render central position
+	// default pivot is 0, 0 (top left corner)
 	private Vector2 pivot = new Vector2(0.5f, 0.5f);
 	
 	public float getScale() {
@@ -27,43 +32,48 @@ public class Image extends Component {
 	}
 	
 	public Image(BufferedImage sprite) {
-		setSprite(sprite);
-	}
-	
-	public void setSprite(BufferedImage sprite) {
-		this.sprite = sprite;
-		
-		width = this.sprite.getWidth();
-		height = this.sprite.getHeight();
-		
-		renderWidth = (int) (width * scale);
-		renderHeight = (int) (height * scale);
-	}
+        setSprite(sprite);
+    }
+    
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
+
+        // width and height from sprite
+        width = this.sprite.getWidth();
+        height = this.sprite.getHeight();
+        
+        renderWidth = (int) (width * scale);
+        renderHeight = (int) (height * scale);
+    }
+    
+    public int getPivotedXPosition() {
+        return (int) (transform.position.x - (renderWidth * pivot.x));
+    }
+    
+    public int getPivotedYPosition() {
+        return (int) (transform.position.y - (renderHeight * pivot.y));
+    }
+    
+    public Rectangle getRect() {
+        return new Rectangle(getPivotedXPosition(), getPivotedYPosition(), renderWidth, renderHeight);
+    }
 	
 	public void setPivot(float x, float y) {
 		pivot.x = x;
 		pivot.y = y;
 	}
-	
-	public int getPivotedXPosition() {
-		return (int) (transform.position.x - (renderWidth * pivot.x));
-	}
-	
-	public int getPivotedYPosition() {
-		return (int) (transform.position.y - (renderHeight * pivot.y));
-	}
-	
-	public Rectangle getRect() {
-		return new Rectangle(getPivotedXPosition(), getPivotedYPosition(), renderWidth, renderHeight);
-	}
 
 	@Override
 	public void init() {
+		// caching transform by getting component from entity
 		transform = entity.getComponent(Transform.class);
 	}
 	
 	public void setScale(float scale) {
 		this.scale = scale;
+		
+		// changing size of image by scaling original size
+		// and storing in local variable
 		renderWidth = (int) (width * scale);
 		renderHeight = (int) (height * scale);
 	}
@@ -77,12 +87,14 @@ public class Image extends Component {
 		if(sprite == null) {
 			return;
 		}
+		// cache original render transform
 		AffineTransform originalTrans = g.getTransform();
 
 		g.rotate(transform.rotation, transform.position.x , transform.position.y);
+		
+        g.drawImage(sprite, getPivotedXPosition(), getPivotedYPosition(), renderWidth, renderHeight, null);
 
-		g.drawImage(sprite, getPivotedXPosition(), getPivotedYPosition(), renderWidth, renderHeight, null);
-
+		// set transform back so not all images are rotated.
 		g.setTransform(originalTrans);
 	}
 

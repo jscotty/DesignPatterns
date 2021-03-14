@@ -10,8 +10,8 @@ import main.MainManager;
 
 public class MissileMediator {
 
-	private static final int normalMissilesCount = 2;
-	private static final int fastMissilesCount = 1;
+	private static final int normalMissilesCount = 10;
+	private static final int fastMissilesCount = 15;
 	private static final int slowMissilesCount = 5;
 	private static final int randomMissilesCount = 0;
 	
@@ -113,6 +113,8 @@ public class MissileMediator {
 			if(missile.collisionDetection(image)) {
 				// missile is hit! DIE!
 				System.out.println("MISSILE HIT");
+				
+				// removing missile because we don't need it anymore. It's destroyed!
 				missiles.remove(missile);
 				MainManager.instance.addScore(missile.getScore());
 				i--;
